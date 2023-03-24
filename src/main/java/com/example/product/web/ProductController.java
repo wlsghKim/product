@@ -56,7 +56,8 @@ public class ProductController {
 
     // 글로벌오류
     // 총액(상품수량*단가) 1억 초과금지
-    if(saveForm.getQuantity() * saveForm.getPrice() > 100_000_000L){
+    long totalPrice = saveForm.getQuantity() * saveForm.getPrice();
+    if(totalPrice > 100_000_000L){
       bindingResult.reject("totalprice",new String[]{"10000"},"");
     }
 
