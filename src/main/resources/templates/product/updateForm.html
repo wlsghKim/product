@@ -12,7 +12,7 @@
 <div class="wrap">
   <h3>상품수정</h3>
   <div>
-    <form action="" method="post" th:object="${updateForm}">
+    <form id="frm" action="" method="post" th:object="${updateForm}">
       <div>
         <label for="productId" >상품번호</label>
         <input type="text" name="productId" readonly th:field="*{productId}">
@@ -47,6 +47,7 @@
 
   const $btnCancel = document.getElementById('btnCancel');
   const $btnFindAll = document.getElementById('btnFindAll');
+  const frm = document.getElementById('frm');
 
   const btnCancel_h = e => history.back()
   const btnFindAll_h = e => location.href = '/products';
@@ -106,7 +107,7 @@
     }else{
       clear();
     }
-
+    // Rest of the code here
     //전송
     frm.submit();
   }
