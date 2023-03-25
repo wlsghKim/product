@@ -24,7 +24,7 @@ import java.util.Optional;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class ProductDAOImpl implements ProductDAO {
+public class ProductDAOImpl implements ProductDAO{
 
   private final NamedParameterJdbcTemplate template;
 
@@ -43,8 +43,11 @@ public class ProductDAOImpl implements ProductDAO {
     SqlParameterSource param = new BeanPropertySqlParameterSource(product);
     KeyHolder keyHolder = new GeneratedKeyHolder();
     template.update(sb.toString(),param,keyHolder,new String[]{"product_id"});
+//    template.update(sb.toString(),param,keyHolder,new String[]{"product_id","pname"});
 
     long productId = keyHolder.getKey().longValue(); //상품아이디
+
+    //String pname = (String)keyHolder.getKeys().get("pname");
     return productId;
   }
 
@@ -102,7 +105,7 @@ public class ProductDAOImpl implements ProductDAO {
    * 삭제
    *
    * @param productId 상품아이디
-   * @return 삭제된 레코드수
+   * @return 삭제된 레코드 수
    */
   @Override
   public int delete(Long productId) {
@@ -136,6 +139,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     return list;
   }
+
   class RowMapperImpl implements RowMapper<Product> {
 
     @Override
@@ -148,9 +152,30 @@ public class ProductDAOImpl implements ProductDAO {
       return product;
     }
   }
+
+//  RowMapper<Product> rowMapper = new RowMapper<Product>() {
+//    @Override
+//    public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+//      Product product = new Product();
+//      product.setProductId(rs.getLong("product_id"));
+//      product.setPname(rs.getString("pname"));
+//      product.setQuantity(rs.getLong("quantity"));
+//      product.setPrice(rs.getLong("price"));
+//      return product;
+//    }
+//  };
+//
+//  RowMapper<Product> rowMapper2 = (rs, rowNum) -> {
+//      Product product = new Product();
+//      product.setProductId(rs.getLong("product_id"));
+//      product.setPname(rs.getString("pname"));
+//      product.setQuantity(rs.getLong("quantity"));
+//      product.setPrice(rs.getLong("price"));
+//      return product;
+//  };
+
   //수동 매핑
   private RowMapper<Product> productRowMapper() {
-
     return (rs, rowNum) -> {
       Product product = new Product();
       product.setProductId(rs.getLong("product_id"));
@@ -160,7 +185,8 @@ public class ProductDAOImpl implements ProductDAO {
       return product;
     };
   }
-//자동매핑 : 테이블의 컬럼명과 자바객체 타입의 멤버필드가 같아야한다.
+
+  //자동매핑 : 테이블의 컬럼명과 자바객체 타입의 멤버필드가 같아야한다.
   // BeanPropertyRowMapper.newInstance(자바객체타입)
 
   @Override

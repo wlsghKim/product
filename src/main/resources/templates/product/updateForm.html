@@ -16,7 +16,6 @@
       <div>
         <label for="productId" >상품번호</label>
         <input type="text" name="productId" readonly th:field="*{productId}">
-
       </div>
       <div>
         <label for="pname">상품명</label>
@@ -58,10 +57,9 @@
 
   const add_h = e => {
     e.preventDefault(); //기본 이벤트 막기
+    const $field_errors = document.querySelectorAll('.field-error');
 
-    const $field-errors= document.querySelector('field-error');
-
-    const clear = () => Array.from($field-errors).forEach(ele=>ele.nextElementSibling.textContent ='')
+    const clear = () => Array.from($field_errors).forEach(ele=>ele.textContent='');
 
     //검증
     if(pname.value.trim().length == 0){
@@ -69,25 +67,26 @@
       pname.nextElementSibling.textContent = msg;
       pname.focus();
       return;
+    }else {
+      clear();
     }
     if(quantity.value.trim().length == 0){
       const msg = '수량을 입력하세요';
       quantity.nextElementSibling.textContent = msg;
       quantity.focus();
       return;
-      }else{
-        clear();
+    }else{
+      clear();
     }
 
-    const regExp = /[0-9]/g;
-    if(!regExp.test(quantity.value)){
+    const regExp = /[0-9]/;
+    if(!regExp.test(quantity.value.trim())){
       const msg = '숫자만 입력하세요';
       quantity.nextElementSibling.textContent = msg;
       quantity.focus();
-      quantity.selected();
       return;
-      }else{
-        clear();
+    }else{
+      clear();
     }
 
     if(price.value.trim().length == 0){
@@ -95,24 +94,23 @@
       price.nextElementSibling.textContent = msg;
       price.focus();
       return;
-      }else{
-        clear();
+    }else{
+      clear();
     }
-       if(!regExp.test(price.value)){
+
+    if(!regExp.test(price.value.trim())){
       const msg = '숫자만 입력하세요';
       price.nextElementSibling.textContent = msg;
       price.focus();
-      price.selected();
       return;
-      }else{
-        clear();
+    }else{
+      clear();
     }
 
     //전송
     frm.submit();
   }
   btnSave.addEventListener('click',add_h,false);
-
 </script>
 </body>
 </html>
