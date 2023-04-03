@@ -1,4 +1,4 @@
-package com.example.product.dao;
+package com.kh.product.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;

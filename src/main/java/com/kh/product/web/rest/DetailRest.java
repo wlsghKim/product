@@ -1,9 +1,9 @@
-package com.example.product.web.form;
+package com.kh.product.web.rest;
 
 import lombok.Data;
 
 @Data
-public class DetailForm {
+public class DetailRest {
   private Long productId;
   private String pname;
   private Long quantity;

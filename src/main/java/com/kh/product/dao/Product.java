@@ -1,4 +1,4 @@
-package com.example.product.dao;
+package com.kh.product.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.product.dao;
+package com.kh.product.dao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,7 @@ import java.util.Optional;
 public class ProductDAOImpl implements ProductDAO {
 
   private final NamedParameterJdbcTemplate template;
+
 
   /**
    * 등록
@@ -110,6 +111,24 @@ public class ProductDAOImpl implements ProductDAO {
     return template.update(sql,Map.of("id",productId));
   }
 
+  /**
+   * 부분삭제
+   *
+   * @param productIds
+   * @return
+   */
+  @Override
+  public int deleteParts(List<Long> productIds) {
+    String sql = "delete from product where product_id in ( :ids ) ";
+    Map<String, List<Long>> param = Map.of("ids", productIds);
+    return template.update(sql,param);
+  }
+
+  /**
+   * 전체 삭제
+   *
+   * @return 삭제한 레코드 건수
+   */
   @Override
   public int deleteAll() {
     String sql = "delete from product ";
@@ -150,7 +169,6 @@ public class ProductDAOImpl implements ProductDAO {
   }
   //수동 매핑
   private RowMapper<Product> productRowMapper() {
-
     return (rs, rowNum) -> {
       Product product = new Product();
       product.setProductId(rs.getLong("product_id"));
@@ -160,9 +178,16 @@ public class ProductDAOImpl implements ProductDAO {
       return product;
     };
   }
-//자동매핑 : 테이블의 컬럼명과 자바객체 타입의 멤버필드가 같아야한다.
+
+  //자동매핑 : 테이블의 컬럼명과 자바객체 타입의 멤버필드가 같아야한다.
   // BeanPropertyRowMapper.newInstance(자바객체타입)
 
+  /**
+   * 상품존재유무
+   *
+   * @param productId 상품아이디
+   * @return
+   */
   @Override
   public boolean isExist(Long productId) {
     boolean isExist = false;
@@ -174,6 +199,11 @@ public class ProductDAOImpl implements ProductDAO {
     return isExist;
   }
 
+  /**
+   * 등록된 상품수
+   *
+   * @return 레코드 건수
+   */
   @Override
   public int countOfRecord() {
     String sql = "select count(*) from product ";
@@ -182,3 +212,5 @@ public class ProductDAOImpl implements ProductDAO {
     return rows;
   }
 }
+
+

@@ -1,7 +1,7 @@
-package com.example.product.svc;
+package com.kh.product.svc;
 
-import com.example.product.dao.Product;
-import com.example.product.dao.ProductDAO;
+import com.kh.product.dao.Product;
+import com.kh.product.dao.ProductDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +32,11 @@ public class ProductSVCImpl implements ProductSVC{
   @Override
   public int delete(Long productId) {
     return productDAO.delete(productId);
+  }
+
+  @Override
+  public int deleteParts(List<Long> productIds) {
+    return productDAO.deleteParts(productIds);
   }
 
   @Override

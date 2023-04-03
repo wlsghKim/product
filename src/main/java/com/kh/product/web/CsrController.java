@@ -1,18 +1,15 @@
-package com.example.product.web;
+package com.kh.product.web;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Slf4j
 @Controller
-@RequestMapping("/")
-public class HomeController {
+@RequestMapping("/csr")
+public class CsrController {
 
-  @GetMapping
-  public String home(){
-    return "index";
+  @GetMapping("/products")
+  public String manageProduct(){
+    return "/csr/product/product";
   }
-
 }

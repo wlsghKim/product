@@ -1,4 +1,4 @@
-package com.example.product.dao;
+package com.kh.product.dao;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +32,12 @@ public interface ProductDAO {
    * @return 삭제된 레코드수
    */
   int delete(Long productId);
+  /**
+   * 부분삭제
+   * @param productIds
+   * @return
+   */
+  int deleteParts(List<Long> productIds);
   /**
    * 전체 삭제
    * @return 삭제한 레코드 건수

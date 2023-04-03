@@ -1,4 +1,4 @@
-package com.example.product.web.form;
+package com.kh.product.web.form;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

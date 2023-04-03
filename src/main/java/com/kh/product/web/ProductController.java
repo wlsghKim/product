@@ -1,10 +1,10 @@
-package com.example.product.web;
+package com.kh.product.web;
 
-import com.example.product.dao.Product;
-import com.example.product.svc.ProductSVC;
-import com.example.product.web.form.DetailForm;
-import com.example.product.web.form.SaveForm;
-import com.example.product.web.form.UpdateForm;
+import com.kh.product.dao.Product;
+import com.kh.product.svc.ProductSVC;
+import com.kh.product.web.form.DetailForm;
+import com.kh.product.web.form.SaveForm;
+import com.kh.product.web.form.UpdateForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -161,8 +161,22 @@ public class ProductController {
 
     List<Product> products = productSVC.findAll();
     model.addAttribute("products",products);
+    if (products.size() == 0) {
+//      throw new BizException("등록된 상품정보가 없습니다");
+    }
 
     return "product/all";
+  }
+  //선택삭제
+  @PostMapping("/items/del")
+  public String deleteParts(@RequestParam("chk") List<Long> productIds){
+    log.info("productIds={}", productIds);
+    if(productIds.size() > 0) {
+      productSVC.deleteParts(productIds);
+    }else {
+      return "product/all";
+    }
+    return "redirect:/products";
   }
 
 }
