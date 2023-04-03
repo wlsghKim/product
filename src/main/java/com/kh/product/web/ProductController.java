@@ -20,10 +20,14 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequestMapping("/products")
-@RequiredArgsConstructor
+@RequiredArgsConstructor  // final멤버 필드를 매개값으로하는 생성자를 자동 생성
 public class ProductController {
 
   private final ProductSVC productSVC;
+
+//  public ProductController(ProductSVC productSVC) {
+//    this.productSVC = productSVC;
+//  }
 
   //등록양식
   @GetMapping("/add")
@@ -36,10 +40,15 @@ public class ProductController {
   //등록처리
   @PostMapping("/add")
   public String save(
+//      @Param("pname") String pname,
+//      @Param("quantity") Long quantity,
+//      @Param("price") Long price
+//    @ModelAttribute : 1. 요청데이터를 자바객체로 바인딩, 2. Model객체에 추가
       @Valid @ModelAttribute SaveForm saveForm,
       BindingResult bindingResult,  //검증 결과를 담는 객체
       RedirectAttributes redirectAttributes
   ){
+//    log.info("pname={}, quantity={}, price={}",pname,quantity,price);
     log.info("saveForm={}",saveForm);
 
     //데이터 검증
