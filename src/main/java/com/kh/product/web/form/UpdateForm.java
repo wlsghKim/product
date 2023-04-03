@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class UpdateForm {
-  private Long productId;
+  private Long pid;
   @NotBlank
   private String pname;
   @NotNull

@@ -25,11 +25,11 @@
         <tbody>
         <tr th:each="product : ${products}">
           <th>
-            <input type="checkbox" name="chk" th:value="${product.productId}">
+            <input type="checkbox" name="chk" th:value="${product.pid}">
           </th>
-          <td th:text="${product.productId}">ID</td>
+          <td th:text="${product.pid}">ID</td>
           <td >
-            <a href="" th:href="@{/products/{id}/detail(id=${product.productId})}" th:text="${product.pname}"></a>
+            <a href="" th:href="@{/products/{id}/detail(id=${product.pid})}" th:text="${product.pname}"></a>
           </td>
           <td th:text="${product.quantity}">수량</td>
           <td th:text="${product.price}">가격</td>

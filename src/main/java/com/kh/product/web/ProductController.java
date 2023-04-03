@@ -100,7 +100,7 @@ public class ProductController {
     Product product = findedProduct.orElseThrow();
 
     DetailForm detailForm = new DetailForm();
-    detailForm.setProductId(product.getProductId());
+    detailForm.setPid(product.getPid());
     detailForm.setPname(product.getPname());
     detailForm.setQuantity(product.getQuantity());
     detailForm.setPrice(product.getPrice());
@@ -119,7 +119,7 @@ public class ProductController {
     Product product = findedProduct.orElseThrow();
 
     UpdateForm updateForm = new UpdateForm();
-    updateForm.setProductId(product.getProductId());
+    updateForm.setPid(product.getPid());
     updateForm.setPname(product.getPname());
     updateForm.setQuantity(product.getQuantity());
     updateForm.setPrice(product.getPrice());
@@ -131,7 +131,7 @@ public class ProductController {
   //수정
   @PostMapping("/{id}/edit")
   public String update(
-      @PathVariable("id") Long productId,
+      @PathVariable("id") Long pid,
       @Valid @ModelAttribute UpdateForm updateForm,
       BindingResult bindingResult,
       RedirectAttributes redirectAttributes
@@ -144,22 +144,22 @@ public class ProductController {
 
     //정상 처리
     Product product = new Product();
-    product.setProductId(productId);
+    product.setPid(pid);
     product.setPname(updateForm.getPname());
     product.setQuantity(updateForm.getQuantity());
     product.setPrice(updateForm.getPrice());
 
-    productSVC.update(productId, product);
+    productSVC.update(pid, product);
 
-    redirectAttributes.addAttribute("id",productId);
+    redirectAttributes.addAttribute("id",pid);
     return "redirect:/products/{id}/detail";
   }
 
   //삭제
   @GetMapping("/{id}/del")
-  public String deleteById(@PathVariable("id") Long productId){
+  public String deleteById(@PathVariable("id") Long pid){
 
-    productSVC.delete(productId);
+    productSVC.delete(pid);
 
     return "redirect:/products";
   }
@@ -178,10 +178,10 @@ public class ProductController {
   }
   //선택삭제
   @PostMapping("/items/del")
-  public String deleteParts(@RequestParam("chk") List<Long> productIds){
-    log.info("productIds={}", productIds);
-    if(productIds.size() > 0) {
-      productSVC.deleteParts(productIds);
+  public String deleteParts(@RequestParam("chk") List<Long> pids){
+    log.info("pids={}", pids);
+    if(pids.size() > 0) {
+      productSVC.deleteParts(pids);
     }else {
       return "product/all";
     }

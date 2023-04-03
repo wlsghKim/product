@@ -20,23 +20,23 @@ public class ProductSVCImpl implements ProductSVC{
   }
 
   @Override
-  public Optional<Product> findById(Long productId) {
-    return productDAO.findById(productId);
+  public Optional<Product> findById(Long pid) {
+    return productDAO.findById(pid);
   }
 
   @Override
-  public int update(Long productId, Product product) {
-    return productDAO.update(productId, product);
+  public int update(Long pid, Product product) {
+    return productDAO.update(pid, product);
   }
 
   @Override
-  public int delete(Long productId) {
-    return productDAO.delete(productId);
+  public int delete(Long pid) {
+    return productDAO.delete(pid);
   }
 
   @Override
-  public int deleteParts(List<Long> productIds) {
-    return productDAO.deleteParts(productIds);
+  public int deleteParts(List<Long> pids) {
+    return productDAO.deleteParts(pids);
   }
 
   @Override
@@ -45,7 +45,7 @@ public class ProductSVCImpl implements ProductSVC{
   }
 
   @Override
-  public boolean isExist(Long productId) {
-    return productDAO.isExist(productId);
+  public boolean isExist(Long pid) {
+    return productDAO.isExist(pid);
   }
 }

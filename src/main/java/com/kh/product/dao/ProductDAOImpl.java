@@ -38,35 +38,35 @@ public class ProductDAOImpl implements ProductDAO{
   @Override
   public Long save(Product product) {
     StringBuffer sb = new StringBuffer();
-    sb.append("insert into product(product_id,pname,quantity,price) ");
-    sb.append("values(product_product_id_seq.nextval, :pname, :quantity, :price) ");
+    sb.append("insert into product(pid,pname,quantity,price) ");
+    sb.append("values(product_pid_seq.nextval, :pname, :quantity, :price) ");
 
     SqlParameterSource param = new BeanPropertySqlParameterSource(product);
     KeyHolder keyHolder = new GeneratedKeyHolder();
-    template.update(sb.toString(),param,keyHolder,new String[]{"product_id"});
-//    template.update(sb.toString(),param,keyHolder,new String[]{"product_id","pname"});
+    template.update(sb.toString(),param,keyHolder,new String[]{"pid"});
+//    template.update(sb.toString(),param,keyHolder,new String[]{"pid","pname"});
 
-    long productId = keyHolder.getKey().longValue(); //상품아이디
+    long pid = keyHolder.getKey().longValue(); //상품아이디
 
     //String pname = (String)keyHolder.getKeys().get("pname");
-    return productId;
+    return pid;
   }
 
   /**
    * 조회
    *
-   * @param productId 상품아이디
+   * @param pid 상품아이디
    * @return 상품
    */
   @Override
-  public Optional<Product> findById(Long productId) {
+  public Optional<Product> findById(Long pid) {
     StringBuffer sb = new StringBuffer();
-    sb.append("select product_id, pname, quantity, price ");
+    sb.append("select pid, pname, quantity, price ");
     sb.append("  from product ");
-    sb.append(" where product_id = :id ");
+    sb.append(" where pid = :id ");
 
     try {
-      Map<String, Long> param = Map.of("id", productId);
+      Map<String, Long> param = Map.of("id", pid);
 
       Product product = template.queryForObject(
           sb.toString(), param, productRowMapper());
@@ -80,24 +80,24 @@ public class ProductDAOImpl implements ProductDAO{
   /**
    * 수정
    *
-   * @param productId 상품아이디
+   * @param pid 상품아이디
    * @param product   상품
    * @return 수정된 레코드 수
    */
   @Override
-  public int update(Long productId, Product product) {
+  public int update(Long pid, Product product) {
     StringBuffer sb = new StringBuffer();
     sb.append("update product ");
     sb.append("   set pname = :pname, ");
     sb.append("       quantity = :quantity, ");
     sb.append("       price = :price ");
-    sb.append(" where product_id = :id ");
+    sb.append(" where pid = :id ");
 
     SqlParameterSource param = new MapSqlParameterSource()
         .addValue("pname",product.getPname())
         .addValue("quantity",product.getQuantity())
         .addValue("price",product.getPrice())
-        .addValue("id",productId);
+        .addValue("id",pid);
 
     return template.update(sb.toString(),param);
   }
@@ -105,25 +105,25 @@ public class ProductDAOImpl implements ProductDAO{
   /**
    * 삭제
    *
-   * @param productId 상품아이디
+   * @param pid 상품아이디
    * @return 삭제된 레코드 수
    */
   @Override
-  public int delete(Long productId) {
-    String sql = "delete from product where product_id = :id ";
-    return template.update(sql,Map.of("id",productId));
+  public int delete(Long pid) {
+    String sql = "delete from product where pid = :id ";
+    return template.update(sql,Map.of("id",pid));
   }
 
   /**
    * 부분삭제
    *
-   * @param productIds
+   * @param
    * @return
    */
   @Override
-  public int deleteParts(List<Long> productIds) {
-    String sql = "delete from product where product_id in ( :ids ) ";
-    Map<String, List<Long>> param = Map.of("ids", productIds);
+  public int deleteParts(List<Long> pids) {
+    String sql = "delete from product where pid in ( :ids ) ";
+    Map<String, List<Long>> param = Map.of("ids", pids);
     return template.update(sql,param);
   }
 
@@ -148,7 +148,7 @@ public class ProductDAOImpl implements ProductDAO{
   @Override
   public List<Product> findAll() {
     StringBuffer sb = new StringBuffer();
-    sb.append("select product_id, pname, quantity, price ");
+    sb.append("select pid, pname, quantity, price ");
     sb.append("  from product ");
 
     List<Product> list = template.query(
@@ -164,7 +164,7 @@ public class ProductDAOImpl implements ProductDAO{
     @Override
     public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
       Product product = new Product();
-      product.setProductId(rs.getLong("product_id"));
+      product.setPid(rs.getLong("pid"));
       product.setPname(rs.getString("pname"));
       product.setQuantity(rs.getLong("quantity"));
       product.setPrice(rs.getLong("price"));
@@ -197,7 +197,7 @@ public class ProductDAOImpl implements ProductDAO{
   private RowMapper<Product> productRowMapper() {
     return (rs, rowNum) -> {
       Product product = new Product();
-      product.setProductId(rs.getLong("product_id"));
+      product.setPid(rs.getLong("pid"));
       product.setPname(rs.getString("pname"));
       product.setQuantity(rs.getLong("quantity"));
       product.setPrice(rs.getLong("price"));
@@ -211,15 +211,15 @@ public class ProductDAOImpl implements ProductDAO{
   /**
    * 상품존재유무
    *
-   * @param productId 상품아이디
+   * @param pid 상품아이디
    * @return
    */
   @Override
-  public boolean isExist(Long productId) {
+  public boolean isExist(Long pid) {
     boolean isExist = false;
-    String sql = "select count(*) from product where product_id = :product_id";
+    String sql = "select count(*) from product where pid = :pid";
 
-    Map<String,Long> param = Map.of("product_id",productId);
+    Map<String,Long> param = Map.of("pid",pid);
     Integer integer = template.queryForObject(sql, param, Integer.class);
     isExist = (integer > 0) ? true : false;
     return isExist;

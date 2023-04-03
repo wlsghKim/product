@@ -34,10 +34,10 @@ public class RestProductController {
     product.setQuantity(saveRest.getQuantity());
     product.setPrice(saveRest.getPrice());
 
-    Long productId = productSVC.save(product);
-    product.setProductId(productId);
+    Long pid = productSVC.save(product);
+    product.setPid(pid);
 
-    if(productId > 0 ) {
+    if(pid > 0 ) {
       res = RestResponse.createRestResponse("00", "성공", product);
     }else{
       res = RestResponse.createRestResponse("99", "실패", "서버오류");
@@ -47,14 +47,14 @@ public class RestProductController {
 
   //상품조회
   @GetMapping("/{id}")
-  public RestResponse<Object> findById(@PathVariable("id") Long productId){
+  public RestResponse<Object> findById(@PathVariable("id") Long pid){
     RestResponse<Object> res = null;
 
     //1)상품존재유뮤판단
-    if(!productSVC.isExist(productId)){
+    if(!productSVC.isExist(pid)){
       throw new RestBizException("99","해당 상품이 없습니다.");
     }
-    Optional<Product> findedProduct = productSVC.findById(productId);
+    Optional<Product> findedProduct = productSVC.findById(pid);
     res = RestResponse.createRestResponse("00", "성공", findedProduct);
     return res;
   }
@@ -62,7 +62,7 @@ public class RestProductController {
   //상품수정
   @PatchMapping("/{id}")
   public RestResponse<Object> update(
-      @PathVariable("id") Long productId,
+      @PathVariable("id") Long pid,
       @RequestBody UpdateRest updateRest
   ){
     RestResponse<Object> res = null;
@@ -71,7 +71,7 @@ public class RestProductController {
 
 
     //1)상품존재유뮤판단
-    if(!productSVC.isExist(productId)){
+    if(!productSVC.isExist(pid)){
       throw new RestBizException("99","해당 상품이 없습니다.");
     }
 
@@ -81,8 +81,8 @@ public class RestProductController {
     product.setQuantity(updateRest.getQuantity());
     product.setPrice(updateRest.getPrice());
 
-    int updatedRowCnt = productSVC.update(productId, product);
-    updateRest.setProductId(productId);
+    int updatedRowCnt = productSVC.update(pid, product);
+    updateRest.setPid(pid);
 
     if(updatedRowCnt == 1 ) {
       res = RestResponse.createRestResponse("00", "성공", updateRest);
@@ -95,18 +95,18 @@ public class RestProductController {
 
   //상품삭제
   @DeleteMapping("/{id}")
-  public RestResponse<Object> delete(@PathVariable("id") Long productId){
+  public RestResponse<Object> delete(@PathVariable("id") Long pid){
     RestResponse<Object> res = null;
 
     //1)상품존재유뮤판단
-    if(!productSVC.isExist(productId)){
+    if(!productSVC.isExist(pid)){
 //      res = RestResponse.createRestResponse("01", "해당 상품이 없습니다.", null);
 //      return res;
       throw new RestBizException("99","해당 상품이 없습니다.");
     }
 
     //2)상품삭제
-    int deletedRowCnt = productSVC.delete(productId);
+    int deletedRowCnt = productSVC.delete(pid);
     if(deletedRowCnt == 1 ) {
       res = RestResponse.createRestResponse("00", "성공", null);
     }else{

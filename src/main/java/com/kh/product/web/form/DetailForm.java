@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class DetailForm {
-  private Long productId;
+  private Long pid;
   private String pname;
   private Long quantity;
   private Long price;

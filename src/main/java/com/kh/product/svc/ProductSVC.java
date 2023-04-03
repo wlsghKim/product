@@ -9,23 +9,23 @@ public interface ProductSVC {
   //등록
   Long save(Product product);
   //조회;
-  Optional<Product> findById(Long productId);
+  Optional<Product> findById(Long pid);
   //수정
-  int update(Long productId,Product product);
+  int update(Long pid,Product product);
   //삭제
-  int delete(Long productId);
+  int delete(Long pid);
   /**
    * 부분삭제
-   * @param productIds
+   * @param pids
    * @return
    */
-  int deleteParts(List<Long> productIds);
+  int deleteParts(List<Long> pids);
   //목록
   List<Product> findAll();
   /**
    * 상품존재유무
-   * @param productId 상품아이디
+   * @param pid 상품아이디
    * @return
    */
-  boolean isExist(Long productId);
+  boolean isExist(Long pid);
 }
