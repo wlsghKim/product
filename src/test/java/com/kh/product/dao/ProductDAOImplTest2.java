@@ -17,7 +17,7 @@ public class ProductDAOImplTest2 {
   @Autowired
   private ProductDAO productDAO;
   private static final int COUNT = 3;
-  private static List<Long> productIds = new ArrayList<>();
+  private static List<Long> pids = new ArrayList<>();
 
   @Test
   @DisplayName("등록")
@@ -27,14 +27,14 @@ public class ProductDAOImplTest2 {
     for(int i=1; i<=COUNT; i++) {
       products.add(new Product(null, "노트북"+i, 1L * i, 1000000L * i));
     }
-    products.stream().forEach(product -> productIds.add(productDAO.save(product)));
+    products.stream().forEach(product -> pids.add(productDAO.save(product)));
   }
   @Test
   @DisplayName("조회")
   @Order(2)
   void findById() {
     int idx = 0;
-    Optional<Product> findedProduct = productDAO.findById(productIds.get(idx));
+    Optional<Product> findedProduct = productDAO.findById(pids.get(idx));
     Product product = findedProduct.orElseThrow();
     org.assertj.core.api.Assertions.assertThat(product.getPname()).isEqualTo("노트북" + (idx + 1));
     org.assertj.core.api.Assertions.assertThat(product.getQuantity()).isEqualTo(1L * (idx + 1));
@@ -46,10 +46,10 @@ public class ProductDAOImplTest2 {
     void update () {
       int idx = ProductDAOImplTest2.COUNT - 1;
       Product product = new Product(null, "노트북_수정", 9L, 9000000L);
-      int updatedRowCnt = productDAO.update(productIds.get(idx), product);
+      int updatedRowCnt = productDAO.update(pids.get(idx), product);
       Assertions.assertThat(updatedRowCnt).isEqualTo(1);
 
-      Optional<Product> findedProduct = productDAO.findById(productIds.get(idx));
+      Optional<Product> findedProduct = productDAO.findById(pids.get(idx));
       Product p = findedProduct.orElseThrow();
       Assertions.assertThat(p.getPname()).isEqualTo("노트북_수정");
       Assertions.assertThat(p.getQuantity()).isEqualTo(9L);
@@ -66,9 +66,9 @@ public class ProductDAOImplTest2 {
     @Test
     @DisplayName("삭제")
     @Order(5)
-    void deleteByProductId () {
+    void deleteByPid () {
       int idx = 0;
-      int deleteRowCnt = productDAO.delete(productIds.get(idx));
+      int deleteRowCnt = productDAO.delete(pids.get(idx));
       Assertions.assertThat(deleteRowCnt).isEqualTo(1);
 
       List<Product> list = productDAO.findAll();

@@ -172,27 +172,6 @@ public class ProductDAOImpl implements ProductDAO{
     }
   }
 
-//  RowMapper<Product> rowMapper = new RowMapper<Product>() {
-//    @Override
-//    public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
-//      Product product = new Product();
-//      product.setProductId(rs.getLong("product_id"));
-//      product.setPname(rs.getString("pname"));
-//      product.setQuantity(rs.getLong("quantity"));
-//      product.setPrice(rs.getLong("price"));
-//      return product;
-//    }
-//  };
-//
-//  RowMapper<Product> rowMapper2 = (rs, rowNum) -> {
-//      Product product = new Product();
-//      product.setProductId(rs.getLong("product_id"));
-//      product.setPname(rs.getString("pname"));
-//      product.setQuantity(rs.getLong("quantity"));
-//      product.setPrice(rs.getLong("price"));
-//      return product;
-//  };
-
   //수동 매핑
   private RowMapper<Product> productRowMapper() {
     return (rs, rowNum) -> {

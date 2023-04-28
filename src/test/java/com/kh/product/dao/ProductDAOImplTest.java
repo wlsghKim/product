@@ -20,47 +20,52 @@ public class ProductDAOImplTest {
 
   //등록
   @Test
+  @DisplayName("상품등록")
   void save() {
     Product product = new Product();
     product.setPname("복사기");
     product.setQuantity(10L);
     product.setPrice(1000000L);
 
-    Long productId = productDAO.save(product);
-    log.info("findedProduct={}", productId);
-    Assertions.assertThat(productId).isGreaterThan(0L);
-//    Optional<Product> findedProduct = productDAO.findById(productId);
+    Long pid = productDAO.save(product);
+    log.info("findedProduct={}", pid);
+    Assertions.assertThat(pid).isGreaterThan(0L);
+//    Optional<Product> findedProduct = productDAO.findById(pid);
   }
 
   //조회
   @Test
+  @DisplayName("상품조회")
   void findById() {
-    Long productId = 288L;
-    Optional<Product> product = productDAO.findById(productId);
-//    if(product.isPresent()) {
+    Long pid = 42L;
+    Optional<Product> findedProduct = productDAO.findById(pid);
+    Product product = null;
+    Assertions.assertThat(findedProduct.stream().count())
+        .isEqualTo(1);
+    //    if(product.isPresent()) {
 //      log.info("product={}", product.get());
 //    }else{
 //      log.info("조회한 결과 없음");
 //    }
 //    Assertions.assertThat(product.stream().count())
 //        .isEqualTo(1);
-    Product findedProduct = product.orElseThrow();// 없으면 java.util.NoSuchElementException
-    Assertions.assertThat(findedProduct.getPname()).isEqualTo("컴퓨터");
-    Assertions.assertThat(findedProduct.getQuantity()).isEqualTo(1L);
-    Assertions.assertThat(findedProduct.getPrice()).isEqualTo(100L);
+//    Product findedProduct = product.orElseThrow();// 없으면 java.util.NoSuchElementException
+//    Assertions.assertThat(findedProduct.getPname()).isEqualTo("복사기");
+//    Assertions.assertThat(findedProduct.getQuantity()).isEqualTo(10L);
+//    Assertions.assertThat(findedProduct.getPrice()).isEqualTo(1000000L);
   }
 
   //수정
   @Test
   @DisplayName("상품수정")
   void update() {
-    Long productId = 288L;
+    Long pid = 42L;
     Product product = new Product();
-    product.setPname("컴퓨터_수정");
+    product.setPname("복사기_수정");
     product.setQuantity(20L);
     product.setPrice(2000000L);
-    int updatedRowCount = productDAO.update(productId, product);
-    Optional<Product> findedProduct = productDAO.findById(productId);
+    int updatedRowCount = productDAO.update(pid, product);
+    Optional<Product> findedProduct = productDAO.findById(pid);
 
     Assertions.assertThat(updatedRowCount).isEqualTo(1);
     Assertions.assertThat(findedProduct.get().getPname()).isEqualTo(product.getPname());
@@ -72,9 +77,9 @@ public class ProductDAOImplTest {
   @Test
   @DisplayName("상품삭제")
   void delete() {
-    Long productId = 283L;
-    int deletedRowCount = productDAO.delete(productId);
-    Optional<Product> findedProduct = productDAO.findById(productId);
+    Long pid = 42L;
+    int deletedRowCount = productDAO.delete(pid);
+    Optional<Product> findedProduct = productDAO.findById(pid);
     // Product product = findedProduct.orElseThrow();
     //case1)
 //    Assertions.assertThat(findedProduct.ofNullable("없음").orElseThrow())
